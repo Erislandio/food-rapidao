@@ -1,16 +1,10 @@
-
 import { Metadata } from 'next';
 import * as React from 'react';
 
 import '@/styles/colors.css';
 import '@/styles/globals.css';
-import 'react-toastify/dist/ReactToastify.css';
 
-import { SideBar } from '@/app/components/SideBar';
-import { AuthContext } from '@/app/context/AuthContext';
-import { StoreActionsContext } from '@/app/context/StoreActionsContext';
 import { siteConfig } from '@/constant/config';
-
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -50,16 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>
-        <AuthContext>
-          <StoreActionsContext>
-            <React.Fragment>
-              <SideBar />
-              {children}
-            </React.Fragment>
-          </StoreActionsContext>
-        </AuthContext>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
