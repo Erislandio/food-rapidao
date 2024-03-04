@@ -1,10 +1,12 @@
 "use client";
 
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import SignGoogleButton from 'react-google-button';
 import { toast, ToastContainer } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
@@ -12,11 +14,13 @@ import Button from '@/components/buttons/Button';
 import { firebaseConfig } from '@/firebase.config';
 
 
+
 export default function Login() {
 
   const app = initializeApp(firebaseConfig)
   const auth = getAuth(app);
   const [isLoading, setloading] = useState(false)
+  const router = useRouter()
 
   const googleProvider = new GoogleAuthProvider();
   const db = getFirestore(app);
@@ -36,33 +40,36 @@ export default function Login() {
     event.preventDefault()
     try {
       const firebaseUser = await signInWithEmailAndPassword(auth, user.email, user.pass)
-
-      const addressCollection = collection(db, "address")
-      const q = query(addressCollection, where("email", "==", firebaseUser.user.email));
-
-      const addressess = await getDocs(q);
-
-      console.log(addressess.docs)
-
-      addressess.forEach(doc => {
-        console.log(doc.exists)
-        console.log(doc.data())
-      })
+      checkAddresses(String(firebaseUser.user.email))
       toast.success('Sucesso!')
 
     } catch (error) {
-      console.log(error)
       toast.error('Usuário inválido!')
     } finally {
       setloading(false)
     }
   }
 
+  async function checkAddresses(email: string) {
+
+    const addressCollection = collection(db, "address")
+    const q = query(addressCollection, where("email", "==", email));
+
+    const addressess = await getDocs(q);
+
+    if (addressess.size) {
+      router.push('/')
+    } else {
+      router.push('/endereco')
+    }
+  }
+
   const handleSignWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const googleUser = await signInWithPopup(auth, googleProvider);
+      checkAddresses(String(googleUser.user.email))
     } catch (error) {
-      await signInWithRedirect(auth, googleProvider);
+      toast.error('Usuário inválido!')
     }
   }
 
@@ -77,7 +84,7 @@ export default function Login() {
           <input onChange={(event) => setUser(newUser => ({
             ...newUser,
             email: event.target.value
-          }))} required type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-4" placeholder="nome@..." />
+          }))} required type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-4" placeholder="E-email" />
         </div>
         <div className="mb-5">
           <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Senha</label>
@@ -86,18 +93,13 @@ export default function Login() {
             pass: event.target.value
           }))} required onFocus={() => {
             window.scrollTo({ top: 10000, behavior: 'smooth' })
-          }} type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-4" />
+          }} type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-4" placeholder='Senha' />
         </div>
         <Button isLoading={isLoading} type="submit" className="text-white bg-orange-500 h-auto focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex justify-center border-none hover:bg-orange-600 p-4">ENTRAR</Button>
       </form>
 
-      <footer>
-        <Button onClick={() => handleSignWithGoogle()}>
-          google
-        </Button>
-        <button onClick={() => {
-          signOut(auth)
-        }}>sair</button>
+      <footer className='flex justify-center'>
+        <SignGoogleButton onClick={() => handleSignWithGoogle()} label='Entrar com o google' />
       </footer>
     </main >
   )

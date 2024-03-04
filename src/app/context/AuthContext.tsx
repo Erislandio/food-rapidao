@@ -13,6 +13,7 @@ interface IAuthContextProvider {
     email: string
     photoURL: string
     name: string
+    phone: string
   },
   loading: boolean
   error: boolean
@@ -22,7 +23,8 @@ const AuthContextProvider = createContext<IAuthContextProvider | null>({
   user: {
     email: '',
     photoURL: '',
-    name: ''
+    name: '',
+    phone: ''
   },
   error: false,
   loading: false
@@ -44,7 +46,8 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
     user: {
       email: String(user?.email),
       photoURL: user?.photoURL ?? '',
-      name: String(user?.displayName ?? user?.email?.split('@')[0])
+      name: String(user?.displayName ?? user?.email?.split('@')[0]),
+      phone: '',
     },
     loading
   }}>{children}</AuthContextProvider.Provider>

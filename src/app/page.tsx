@@ -8,14 +8,9 @@ import { Grettings } from '@/app/components/Grettings';
 import Header from '@/app/components/Header';
 import { OpenedAtMoment } from '@/app/components/OpenedAtMoment';
 import { SearchBar } from '@/app/components/SearchBar';
-import { useAuthContext } from '@/app/context/AuthContext';
 
 
 export default function HomePage() {
-
-  const { user } = useAuthContext()
-  console.log(user)
-
   return (
     <main>
       <Head>

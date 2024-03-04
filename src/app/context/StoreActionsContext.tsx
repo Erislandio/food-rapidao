@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 
 interface IStoreActionsContextProvider {
   openSideBar: boolean
@@ -36,12 +36,14 @@ export const StoreActionsContext = ({ children }: { children: React.ReactNode })
   }, [isOpenMinicart, isOpenSideBar, toggleMiniCart, toggleSideBar])
 
 
-  return <StoreActionsContextProvider.Provider value={{
+  const context = useMemo(() => ({
     toggleMiniCart,
     toggleSideBar,
     openMinicart: isOpenMinicart,
     openSideBar: isOpenSideBar
-  }}>{children}</StoreActionsContextProvider.Provider>
+  }), [isOpenMinicart, isOpenSideBar, toggleMiniCart, toggleSideBar])
+
+  return <StoreActionsContextProvider.Provider value={context}>{children}</StoreActionsContextProvider.Provider>
 }
 
 export const useStoreActions = () => {

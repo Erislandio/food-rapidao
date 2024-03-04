@@ -5,10 +5,13 @@ import { ChevronRight, Menu, ShoppingBag } from "lucide-react";
 import Button from "@/components/buttons/Button";
 
 import { useStoreActions } from "@/app/context/StoreActionsContext";
+import { useUserContext } from "@/app/context/UserContext";
 
 export default function Header() {
 
   const { toggleSideBar, toggleMiniCart } = useStoreActions()
+
+  const { defaultAddress } = useUserContext()
 
   return (
     <header className="flex items-center justify-between">
@@ -21,7 +24,7 @@ export default function Header() {
             ENTREGAR EM
           </span>
           <button className="font-thin flex items-center body p-0 bg-transparent border-none shadow-none">
-            Av. dos Imigrantes, 679...
+            {defaultAddress ? `${defaultAddress.street}, ${defaultAddress.number}...` : 'Adicionar endereço'}
             <ChevronRight className="rotate-90 w-4 ml-2" />
           </button>
         </div>

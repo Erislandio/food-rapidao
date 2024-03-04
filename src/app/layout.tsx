@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import * as React from 'react';
 
@@ -8,7 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { SideBar } from '@/app/components/SideBar';
 import { AuthContext } from '@/app/context/AuthContext';
+import QueryContext from '@/app/context/QueryContext';
 import { StoreActionsContext } from '@/app/context/StoreActionsContext';
+import UserContext from '@/app/context/UserContext';
 import { siteConfig } from '@/constant/config';
 
 
@@ -48,17 +49,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html>
       <body>
-        <AuthContext>
-          <StoreActionsContext>
-            <React.Fragment>
-              <SideBar />
-              {children}
-            </React.Fragment>
-          </StoreActionsContext>
-        </AuthContext>
+        <QueryContext>
+          <AuthContext>
+            <UserContext>
+              <StoreActionsContext>
+                <React.Fragment>
+                  <SideBar />
+                  {children}
+                </React.Fragment>
+              </StoreActionsContext>
+            </UserContext>
+          </AuthContext>
+        </QueryContext>
       </body>
     </html>
   );
