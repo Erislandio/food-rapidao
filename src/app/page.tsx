@@ -3,11 +3,11 @@
 import '@/lib/env';
 import Head from 'next/head';
 
-import { AllCategories } from '@/app/components/AllCategories';
-import { Grettings } from '@/app/components/Grettings';
-import Header from '@/app/components/Header';
-import { OpenedAtMoment } from '@/app/components/OpenedAtMoment';
-import { SearchBar } from '@/app/components/SearchBar';
+import { AllCategories } from '@/components/AllCategories';
+import { Grettings } from '@/components/Grettings';
+import Header from '@/components/Header';
+import { OpenedAtMoment } from '@/components/OpenedAtMoment';
+import { SearchBar } from '@/components/SearchBar';
 
 
 export default function HomePage() {

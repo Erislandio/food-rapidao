@@ -44,10 +44,10 @@ export const AuthContext = ({ children }: { children: React.ReactNode }) => {
   return <AuthContextProvider.Provider value={{
     error: !!error,
     user: {
-      email: String(user?.email),
+      email: user?.email ?? '',
       photoURL: user?.photoURL ?? '',
-      name: String(user?.displayName ?? user?.email?.split('@')[0]),
-      phone: '',
+      name: user?.displayName || user?.email ? String(user?.displayName ?? user?.email?.split('@')[0]) : '',
+      phone: user?.phoneNumber ?? '',
     },
     loading
   }}>{children}</AuthContextProvider.Provider>

@@ -1,70 +1,79 @@
 'use client'
 
 import { useQuery } from "@tanstack/react-query"
-import { initializeApp } from "firebase/app"
-import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
-import React, { createContext, useContext } from "react"
+import { collection, onSnapshot, query, where } from "firebase/firestore"
+import React, { createContext, Dispatch, useContext, useEffect, useState } from "react"
 
 import { useAuthContext } from "@/app/context/AuthContext"
 import { Address } from "@/app/endereco/page"
-import { firebaseConfig } from "@/firebase.config"
+import { db } from "@/services/fisebase"
+import { getAddresses, getUserAccount } from "@/network/dataManager"
 
 interface User {
   user: {
     email: string,
     phone: string,
+    picture: string
+    name: string
   },
-  isLoading: boolean
-  address?: Address[],
-  defaultAddress?: Address
+  addresses: Address[],
+  refetch: () => void
+  selectedAddress?: Address
+  setSelectedAddress: Dispatch<Address>
 }
 
 const UserContextProvider = createContext<User>({
   user: {
     email: '',
-    phone: ''
+    phone: '',
+    picture: '',
+    name: ''
   },
-  isLoading: false,
-  address: [],
-  defaultAddress: undefined
+  refetch: () => null,
+  addresses: [],
+  selectedAddress: undefined,
+  setSelectedAddress: () => null
 })
-
-async function getAddresses(email: string): Promise<Array<Address>> {
-  const app = initializeApp(firebaseConfig)
-
-  const db = getFirestore(app);
-  const addressCollection = collection(db, "address")
-  const q = query(addressCollection, where("email", "==", email));
-
-  const addressess = await getDocs(q);
-
-  const data: Address[] = []
-
-  addressess.forEach(item => {
-    if (item.exists()) {
-      data.push(item.data() as Address)
-    }
-  })
-
-  return data
-}
 
 export default function UserContext({ children }: { children: React.ReactNode }) {
   const { user } = useAuthContext()
-  const { data, isLoading } = useQuery<Array<Address>>({
+  const [selectedAddress, setSelectedAddress] = useState<Address | undefined>()
+  const { refetch, data: addresses } = useQuery<Address[]>({
     queryKey: ['addresses'],
-    queryFn: () => getAddresses(user?.email)
+    refetchOnMount: false,
+    queryFn: async () => getAddresses(user.email)
   })
 
+  useEffect(() => {
+    if (addresses?.length) {
+      const [defaultSelected] = addresses
+      setSelectedAddress(defaultSelected)
+    } else {
+      setSelectedAddress(undefined)
+    }
+  }, [addresses])
+
+  const { data: userAccount } = useQuery({
+    queryKey: ['userAccount', user.email],
+    queryFn: async () => {
+      const response = await getUserAccount(user.email)
+      return response
+    },
+    enabled: !!user.email,
+    retryOnMount: true,
+  })
 
   return <UserContextProvider.Provider value={{
     user: {
       email: user?.email,
-      phone: user?.phone,
+      picture: user?.photoURL,
+      phone: userAccount ? userAccount?.phone : user?.phone,
+      name: userAccount ? userAccount?.name : user?.name,
     },
-    isLoading,
-    address: data,
-    defaultAddress: data?.reverse()?.pop()
+    refetch,
+    addresses: addresses ?? [],
+    selectedAddress,
+    setSelectedAddress
   }}>{children}</UserContextProvider.Provider>
 }
 

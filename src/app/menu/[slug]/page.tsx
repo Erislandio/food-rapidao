@@ -3,12 +3,12 @@
 import '@/lib/env';
 import Head from 'next/head';
 
-import { Banner } from '@/app/components/Banner';
-import { Categories } from '@/app/components/Categories';
-import { Grettings } from '@/app/components/Grettings';
-import Header from '@/app/components/Header';
-import { Shelf } from '@/app/components/Shelf';
-import { TipBar } from '@/app/components/TipBar';
+import { Banner } from '@/components/Banner';
+import { Categories } from '@/components/Categories';
+import { Grettings } from '@/components/Grettings';
+import Header from '@/components/Header';
+import { Shelf } from '@/components/Shelf';
+import { TipBar } from '@/components/TipBar';
 
 export default function HomePage() {
   return (

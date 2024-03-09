@@ -1,29 +1,33 @@
 "use client";
 
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SignGoogleButton from 'react-google-button';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 
-import { firebaseConfig } from '@/firebase.config';
-
-
+import { auth, db } from '@/services/fisebase';
+import { ChevronLeft } from 'lucide-react';
+import { useAuthContext } from '../context/AuthContext';
+import { getAddresses } from '@/network/dataManager';
 
 export default function Login() {
 
-  const app = initializeApp(firebaseConfig)
-  const auth = getAuth(app);
   const [isLoading, setloading] = useState(false)
   const router = useRouter()
+  const { user: currentUser } = useAuthContext()
+
+  useEffect(() => {
+    if (currentUser.email) {
+      router.push('/')
+    }
+  }, [currentUser])
 
   const googleProvider = new GoogleAuthProvider();
-  const db = getFirestore(app);
 
   googleProvider.setCustomParameters({
     prompt: 'select_account'
@@ -40,7 +44,7 @@ export default function Login() {
     event.preventDefault()
     try {
       const firebaseUser = await signInWithEmailAndPassword(auth, user.email, user.pass)
-      checkAddresses(String(firebaseUser.user.email))
+      checkUserAccount(String(firebaseUser.user.email))
       toast.success('Sucesso!')
 
     } catch (error) {
@@ -50,33 +54,44 @@ export default function Login() {
     }
   }
 
-  async function checkAddresses(email: string) {
+  async function checkUserAccount(email: string) {
 
-    const addressCollection = collection(db, "address")
-    const q = query(addressCollection, where("email", "==", email));
+    const userCollection = collection(db, 'users')
+    const userQuery = query(userCollection, where('email', '==', email))
 
-    const addressess = await getDocs(q);
+    const hasAcount = await getDocs(userQuery)
 
-    if (addressess.size) {
-      router.push('/')
-    } else {
+    if (hasAcount.empty) {
+      return router.push('/profile')
+    }
+
+    const addresses = await getAddresses(email)
+
+    if (!addresses.length) {
       router.push('/endereco')
+    } else {
+      window.location.href = '/'
     }
   }
 
   const handleSignWithGoogle = async () => {
     try {
       const googleUser = await signInWithPopup(auth, googleProvider);
-      checkAddresses(String(googleUser.user.email))
+      checkUserAccount(String(googleUser.user.email))
     } catch (error) {
       toast.error('Usuário inválido!')
     }
   }
 
   return (
-    <main>
+    <main className='pb-6'>
       <ToastContainer />
-      <Image width={500} height={500} src="/images/logo.png" alt="Menu eats app" />
+      <div className='relative'>
+        <Button onClick={() => router.back()} className="bg-gray-300 border-none rounded-full size-10 absolute left-4 top-4">
+          <ChevronLeft className="text-black size-6" />
+        </Button>
+        <Image width={500} height={500} src="/images/logo.png" alt="Menu eats app" className='h-[300px] object-cover' />
+      </div>
       <form onSubmit={handleSubmit} className="p-6 mx-auto relative -top-12 bg-white rounded-t-3xl">
         <h1 className='text-center uppercase'>Login</h1>
         <div className="mb-5 mt-6">

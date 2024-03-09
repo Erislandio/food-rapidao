@@ -2,7 +2,7 @@ import { ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
-import { TipBar } from "@/app/components/TipBar"
+import { TipBar } from "@/components/TipBar"
 
 export const OpenedAtMoment = () => {
   return (

@@ -5,12 +5,14 @@ import '@/styles/colors.css';
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { SideBar } from '@/app/components/SideBar';
+import { SideBar } from '@/components/SideBar';
+
 import { AuthContext } from '@/app/context/AuthContext';
 import QueryContext from '@/app/context/QueryContext';
 import { StoreActionsContext } from '@/app/context/StoreActionsContext';
 import UserContext from '@/app/context/UserContext';
 import { siteConfig } from '@/constant/config';
+import { CartContext } from '@/app/context/CartContext';
 
 
 export const metadata: Metadata = {
@@ -54,16 +56,18 @@ export default function RootLayout({
     <html>
       <body>
         <QueryContext>
-          <AuthContext>
-            <UserContext>
-              <StoreActionsContext>
-                <React.Fragment>
-                  <SideBar />
-                  {children}
-                </React.Fragment>
-              </StoreActionsContext>
-            </UserContext>
-          </AuthContext>
+          <CartContext>
+            <AuthContext>
+              <UserContext>
+                <StoreActionsContext>
+                  <React.Fragment>
+                    <SideBar />
+                    {children}
+                  </React.Fragment>
+                </StoreActionsContext>
+              </UserContext>
+            </AuthContext>
+          </CartContext>
         </QueryContext>
       </body>
     </html>
