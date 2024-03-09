@@ -3,8 +3,7 @@ import { ICartContext } from '@/app/context/CartContext';
 import { cookies } from 'next/headers';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/services/fisebase';
-
-export const CART_ID_COOKIE = 'cartId'
+import { CART_ID_COOKIE } from '@/app/constants';
 
 async function getCart(id: string) {
   const cartQuery = doc(db, 'cart', id)
