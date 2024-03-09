@@ -8,11 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { SideBar } from '@/components/SideBar';
 
 import { AuthContext } from '@/app/context/AuthContext';
+import { CartContext } from '@/app/context/CartContext';
 import QueryContext from '@/app/context/QueryContext';
 import { StoreActionsContext } from '@/app/context/StoreActionsContext';
 import UserContext from '@/app/context/UserContext';
 import { siteConfig } from '@/constant/config';
-import { CartContext } from '@/app/context/CartContext';
 
 
 export const metadata: Metadata = {

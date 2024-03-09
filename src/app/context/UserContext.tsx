@@ -1,13 +1,11 @@
 'use client'
 
 import { useQuery } from "@tanstack/react-query"
-import { collection, onSnapshot, query, where } from "firebase/firestore"
 import React, { createContext, Dispatch, useContext, useEffect, useState } from "react"
 
 import { useAuthContext } from "@/app/context/AuthContext"
-import { Address } from "@/app/endereco/page"
-import { db } from "@/services/fisebase"
 import { getAddresses, getUserAccount } from "@/network/dataManager"
+import { Address } from "@/addresses"
 
 interface User {
   user: {

@@ -1,7 +1,7 @@
 'use client';
 
-import '@/lib/env';
 import Head from 'next/head';
+import '@/lib/env';
 
 import { AllCategories } from '@/components/AllCategories';
 import { Grettings } from '@/components/Grettings';

@@ -1,9 +1,10 @@
-import { NextResponse } from 'next/server';
-import { ICartContext } from '@/app/context/CartContext';
-import { cookies } from 'next/headers';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '@/services/fisebase';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+
 import { CART_ID_COOKIE } from '@/app/constants';
+import { ICartContext } from '@/app/context/CartContext';
+import { db } from '@/services/fisebase';
 
 async function getCart(id: string) {
   const cartQuery = doc(db, 'cart', id)

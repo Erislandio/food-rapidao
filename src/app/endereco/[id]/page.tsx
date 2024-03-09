@@ -1,24 +1,18 @@
 'use client';
 
-import '@/lib/env';
-import { useMutation } from '@tanstack/react-query';
-import { doc, setDoc } from 'firebase/firestore';
-import { ChevronLeft, MapPin } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import React, { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import '@/lib/env';
 
+import { AddressForm } from '@/components/AddressForm';
 import Button from '@/components/buttons/Button';
 
-import { useAuthContext } from '@/app/context/AuthContext';
-import { db } from '@/services/fisebase';
-import { DBS } from '@/network/dataManager';
-import { AddressForm } from '../page';
 
 export default function AddressFormPage() {
-
   const router = useRouter()
   const { id } = useParams()
 
@@ -26,7 +20,7 @@ export default function AddressFormPage() {
     if (!id) {
       router.push('not-found')
     }
-  }, [id])
+  }, [id, router])
 
   return (
     <main>

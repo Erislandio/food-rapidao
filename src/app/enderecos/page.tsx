@@ -2,15 +2,16 @@
 
 import { Briefcase, ChevronLeft, FilePen, Home, Trash2 } from "lucide-react";
 import Head from "next/head";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import Button from "@/components/buttons/Button";
-import { ConditionalChildren } from "@/components/ConditionalChildren";
-import { useUserContext } from "../context/UserContext";
-import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import IconButton from "@/components/buttons/IconButton";
-import { getAddresses, removeDocumentById } from "@/network/dataManager";
+import { ConditionalChildren } from "@/components/ConditionalChildren";
+
+import { removeDocumentById } from "@/network/dataManager";
+
+import { useUserContext } from "../context/UserContext";
 
 export default function AddressList() {
 

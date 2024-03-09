@@ -1,19 +1,20 @@
 "use client";
 
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import SignGoogleButton from 'react-google-button';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 
-import { auth, db } from '@/services/fisebase';
-import { ChevronLeft } from 'lucide-react';
-import { useAuthContext } from '../context/AuthContext';
 import { getAddresses } from '@/network/dataManager';
+import { auth, db } from '@/services/fisebase';
+
+import { useAuthContext } from '../context/AuthContext';
 
 export default function Login() {
 
@@ -25,7 +26,7 @@ export default function Login() {
     if (currentUser.email) {
       router.push('/')
     }
-  }, [currentUser])
+  }, [currentUser, router])
 
   const googleProvider = new GoogleAuthProvider();
 

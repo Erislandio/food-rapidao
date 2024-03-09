@@ -1,7 +1,7 @@
 'use client';
 
-import '@/lib/env';
 import Head from 'next/head';
+import '@/lib/env';
 
 import { Banner } from '@/components/Banner';
 import { Categories } from '@/components/Categories';

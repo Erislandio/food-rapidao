@@ -1,4 +1,3 @@
-import { useAuthContext } from "@/app/context/AuthContext"
 import { useUserContext } from "@/app/context/UserContext"
 
 function getGrettings() {

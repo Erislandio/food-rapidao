@@ -1,8 +1,9 @@
+import { collection, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
+
 import { ICartContext } from "@/app/context/CartContext";
-import { Address } from "@/app/endereco/page";
 import { db } from "@/services/fisebase";
-import { collection, getDoc, getDocs, onSnapshot, query, setDoc, where } from "firebase/firestore";
-import { doc, deleteDoc } from "firebase/firestore";
+import { Address } from "@/addresses";
 
 export const DBS = {
   address: 'addresses',
