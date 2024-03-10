@@ -47,7 +47,6 @@ export default function Login() {
       const firebaseUser = await signInWithEmailAndPassword(auth, user.email, user.pass)
       checkUserAccount(String(firebaseUser.user.email))
       toast.success('Sucesso!')
-
     } catch (error) {
       toast.error('Usuário inválido!')
     } finally {
@@ -71,7 +70,7 @@ export default function Login() {
     if (!addresses.length) {
       router.push('/endereco')
     } else {
-      window.location.href = '/'
+      router.push('/')
     }
   }
 

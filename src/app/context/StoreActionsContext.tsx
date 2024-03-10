@@ -35,7 +35,6 @@ export const StoreActionsContext = ({ children }: { children: React.ReactNode })
 
   }, [isOpenMinicart, isOpenSideBar, toggleMiniCart, toggleSideBar])
 
-
   const context = useMemo(() => ({
     toggleMiniCart,
     toggleSideBar,

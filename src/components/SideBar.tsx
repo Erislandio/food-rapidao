@@ -10,6 +10,7 @@ import { ConditionalChildren } from "@/components/ConditionalChildren"
 import { useStoreActions } from "@/app/context/StoreActionsContext"
 import { useUserContext } from "@/app/context/UserContext"
 import { auth } from "@/services/fisebase"
+import { toast } from "react-toastify"
 
 export const SideBar = () => {
 
@@ -100,10 +101,14 @@ export const SideBar = () => {
       </Button>
 
       <Button onClick={() => {
-        auth.signOut()
-        toggleSideBar()
-        router.push('/')
-        window.location.reload()
+        try {
+          auth.signOut()
+          toggleSideBar()
+          router.push('/')
+          toast.success('Logout feito com sucesso!')
+        } catch {
+          toast.success('Não foi possível fazer o logout no momento!')
+        }
       }} className="bg-gray-100 border-none rounded-xl mt-4 flex items-center justify-between w-full p-2">
         <div className="flex items-center">
           <span className="size-10 bg-white rounded-full flex items-center justify-center"><LogOut className="text-red-500 size-4" /></span>

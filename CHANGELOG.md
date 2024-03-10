@@ -19,7 +19,7 @@ This changelog is manually generated and not accurate with the package.json, onl
     For better support with shadcn/ui
 
 - #### Faster Lint Actions
-  
+
     Lint jobs is now merged into one for faster performance, also updated the concurrency rule
 
 ## 0.5.4 - 2022-07-22
@@ -33,7 +33,7 @@ This changelog is manually generated and not accurate with the package.json, onl
 ### Improvements & Bug Fixes
 
 - #### More Efficient Lint Actions
-    
+
     Lint workflow is now cached and will cancel previous run if there are 2 concurrent runs.
 
 ## 0.5.3 - 2022-02-27
@@ -41,7 +41,7 @@ This changelog is manually generated and not accurate with the package.json, onl
 ### New Features
 
 - #### Shimmer for NextImage and Skeleton
-    
+
     Addition of shimmer & blur placeholder for NextImage, and new Skeleton Component with shimmer effect.
 
     https://user-images.githubusercontent.com/55318172/155867729-8c3176ad-ede4-4443-b42b-780517615e5a.mp4
@@ -74,7 +74,7 @@ This changelog is manually generated and not accurate with the package.json, onl
 - #### ESLint Curly Brace Rule
 
     New autofixable rule
-    
+
     ```tsx
     props={'hi'}
 
@@ -111,9 +111,9 @@ This changelog is manually generated and not accurate with the package.json, onl
 ### New Features
 
 - #### New Snippets Wrap: clsx and fragment `<></>`
-    
+
     You can select text then wrap it with clsx or React.Fragment shorthand.
-    
+
     https://user-images.githubusercontent.com/55318172/147401848-3db5dba0-ef71-4f25-9f47-c7908beba69e.mp4
 
 
@@ -144,8 +144,8 @@ This changelog is manually generated and not accurate with the package.json, onl
 ### New Features
 
 - #### Tailwind CSS v3
-    
-    The color palette configuration is also updated accordingly. 
+
+    The color palette configuration is also updated accordingly.
 
 ## 0.4.0 - 2021-12-02
 
@@ -188,7 +188,7 @@ This changelog is manually generated and not accurate with the package.json, onl
     Now, to add props to Next.js `<Link>` component, you can use `nextLinkProps`.
 
     ```tsx
-    <UnstyledLink 
+    <UnstyledLink
       href='/'
       nextLinkProps={{
         shallow: true,
@@ -428,4 +428,3 @@ Snippets: `reg`
 ```
 
 You should also use [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) extension.
-
